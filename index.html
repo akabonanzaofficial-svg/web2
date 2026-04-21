@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serikat Ekonomi Pesantren</title>
+    <!-- Meta Tags untuk Thumbnail Share (Open Graph) -->
+    <meta property="og:title" content="Serikat Ekonomi Pesantren">
+    <meta property="og:description" content="Gerakan kolaboratif yang bercita-cita membangun kemandirian ekonomi pesantren yang mandiri dan berkelanjutan.">
+    <meta property="og:image" content="https://serikatekonomipesantren.com/logo.png">
+    <meta property="og:url" content="https://serikatekonomipesantren.com/">
+    <meta property="og:type" content="website">
+
+    <!-- Meta Tags khusus untuk Twitter/X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Serikat Ekonomi Pesantren">
+    <meta name="twitter:description" content="Gerakan kolaboratif untuk menguatkan potensi ekonomi pesantren yang mandiri dan berkelanjutan.">
+    <meta name="twitter:image" content="https://serikatekonomipesantren.com/logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Transisi halus saat ganti halaman */
+        .page-content {
+            display: none;
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .page-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar untuk chat */
+        .chat-scroll::-webkit-scrollbar { width: 6px; }
+        .chat-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        
+        /* Paginasi Active State */
+        .page-num.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        /* Clamp Teks */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;  
+            overflow: hidden;
+        }
+    </style>
+    
+    <!-- WIDGET NETLIFY IDENTITY DENGAN URL SPESIFIK -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            if (window.netlifyIdentity) {
+                try {
+                    window.netlifyIdentity.init({
+                        // PENTING: Masukkan URL Netlify Anda di bawah ini
+                        APIUrl: "https://ALAMAT-NETLIFY-ANDA-YANG-BARU.netlify.app/.netlify/identity" 
+                    });
+                } catch (error) {
+                    console.error("Netlify Identity init error:", error);
+                }
+            }
+        });
+    </script>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- NAVIGATION BAR -->
+    <nav class="bg-white shadow-md fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-start">
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="navigate('beranda')" class="nav-link text-blue-600 font-semibold hover:text-blue-800 transition-colors focus:outline-none" data-target="beranda">Beranda</button>
+                    <button onclick="navigate('tentang')" class="nav-link text-gray-600 font-medium hover:text-blue-800 transition-colors focus:outline-none" data-target="tentang">Tentang Kami</button>
+                    <button onclick="navigate('program')" class="nav-link text-gray-600 font-medium hover:text-blue-800 transition-colors focus:outline-none" data-target="program">Program</button>
+                    <button onclick="navigate('berita')" class="nav-link text-gray-600 font-medium hover:text-blue-800 transition-colors focus:outline-none" data-target="berita">Berita</button>
+                    <button onclick="navigate('kontak')" class="nav-link text-gray-600 font-medium hover:text-blue-800 transition-colors focus:outline-none" data-target="kontak">Kontak</button>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <div class="md:hidden flex items-center ml-auto">
+                    <button onclick="toggleMobileMenu()" class="text-gray-600 hover:text-blue-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Container -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full left-0 shadow-lg top-16">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <button onclick="navigateMobile('beranda')" class="nav-link-mobile block w-full text-left px-3 py-2 rounded-md text-base font-medium text-blue-600 bg-blue-50" data-target="beranda">Beranda</button>
+                <button onclick="navigateMobile('tentang')" class="nav-link-mobile block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-blue-800" data-target="tentang">Tentang Kami</button>
+                <button onclick="navigateMobile('program')" class="nav-link-mobile block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-blue-800" data-target="program">Program</button>
+                <button onclick="navigateMobile('berita')" class="nav-link-mobile block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-blue-800" data-target="berita">Berita</button>
+                <button onclick="navigateMobile('kontak')" class="nav-link-mobile block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-blue-800" data-target="kontak">Kontak</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-16">
+
+        <!-- HALAMAN 1: BERANDA -->
+        <section id="beranda" class="page-content active">
+            <div class="pt-24 pb-12 md:pt-32 md:pb-24 bg-blue-600 text-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    
+                    <!-- Logo Section -->
+                    <div class="flex justify-center mb-8">
+                        <img id="logo-utama" src="logo.png" alt="Logo SEP" class="h-32 w-32 md:h-40 md:w-40 object-cover rounded-full border-4 border-white shadow-2xl hover:scale-105 transition-transform duration-300 bg-white">
+                    </div>
+
+                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase">
+                        Serikat Ekonomi Pesantren
+                    </h1>
+                    <p class="mt-4 text-base md:text-lg text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                        Kami adalah gerakan kolaboratif yang bercita-cita membangun kemandirian ekonomi pesantren, dengan menghidupkan semangat kemandirian, menumbuhkan wirausaha santri, dan menciptakan ekosistem ekonomi yang berdaya, mandiri, dan berkelanjutan.
+                    </p>
+                    <div class="mt-8 flex justify-center gap-4">
+                        <button onclick="navigate('tentang')" class="bg-white text-blue-600 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-gray-100 transition duration-300">
+                            Pelajari Lebih Lanjut
+                        </button>
+                    </div>
+
+                    <!-- Gallery Grid -->
+                    <div class="mt-16 max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 px-4">
+                        <div class="col-span-2 row-span-2 overflow-hidden rounded-2xl shadow-lg border-2 border-white/20">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80" alt="Kegiatan 1" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500 min-h-[200px]">
+                        </div>
+                        <div class="col-span-1 overflow-hidden rounded-2xl shadow-lg border-2 border-white/20">
+                            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80" alt="Kegiatan 2" class="w-full h-32 md:h-48 object-cover hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="col-span-1 overflow-hidden rounded-2xl shadow-lg border-2 border-white/20">
+                            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=80" alt="Kegiatan 3" class="w-full h-32 md:h-48 object-cover hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="col-span-2 overflow-hidden rounded-2xl shadow-lg border-2 border-white/20">
+                            <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&q=80" alt="Kegiatan 4" class="w-full h-32 md:h-48 object-cover hover:scale-105 transition-transform duration-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN 2: TENTANG KAMI -->
+        <section id="tentang" class="page-content py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900">Tentang Kami</h2>
+                    <div class="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" alt="Tim SEP" class="rounded-2xl shadow-xl object-cover w-full h-80">
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Sejarah Singkat</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Sinergi Ekosistem Pesantren (SEP) Dideklarasikan pada 12 November 2019 di Tasikmalaya. Deklarasi dihadiri tidak kurang oleh 500 pesantren perwakilan dari berbagai daerah di Jawa Barat. Gerakan ini lahir dari silaturahmi antar pesantren yang telah dimulai sejak 2015.
+                        </p>
+                        <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+                            Momentum tersebut semakin menguat dengan diselenggarakannya Program OPOP (One Pesantren One Produk) oleh Pemprov Jawa Barat dimana 5.000 Pesantren berkesempatan untuk magang dan pelatihan.
+                        </p>
+
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Visi & Misi</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-blue-600 mr-3 text-lg">🎯</span>
+                                <span class="text-gray-600"><strong>Visi:</strong> Menjadikan pesantren sebagai pusat kekuatan ekonomi umat yang mandiri dan produktif.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-blue-600 mr-3">✅</span>
+                                <span class="text-gray-600 text-sm"><strong>Misi:</strong> Menanamkan mental kemandirian, mendorong aksi nyata pengembangan ekonomi, dan membangun jejaring lintas sektor.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Legalitas -->
+                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 shadow-inner">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">Legalitas Organisasi</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center max-w-4xl mx-auto">
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">Badan Hukum</p>
+                            <p class="font-bold text-gray-800 text-lg mt-1">Yayasan Sinergi Ekosistem Pesantren</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">SK Kemenkumham</p>
+                            <p class="font-bold text-gray-800 text-lg mt-1 text-sm md:text-lg">AHU-0000612.AH.01.04. Tahun 2024</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN 3: PROGRAM -->
+        <section id="program" class="page-content py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900">Program Utama</h2>
+                    <div class="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all p-8 border border-gray-100">
+                        <div class="text-4xl mb-4 text-blue-600">📢</div>
+                        <h3 class="font-bold text-xl mb-3">Sosialisasi & Edukasi</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Edukasi terkait inisiasi dan penguatan program ekonomi di lingkungan pesantren seluruh Indonesia.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all p-8 border border-gray-100">
+                        <div class="text-4xl mb-4 text-blue-600">📈</div>
+                        <h3 class="font-bold text-xl mb-3">Pendampingan Bisnis</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Intervensi strategis untuk memastikan unit usaha pesantren tumbuh secara berkelanjutan.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all p-8 border border-gray-100">
+                        <div class="text-4xl mb-4 text-blue-600">🔗</div>
+                        <h3 class="font-bold text-xl mb-3">Sinergi Potensi</h3>
+                        <p class="text-gray-500 text-sm leading-relaxed">Menghubungkan mitra eksternal dengan potensi lokal pesantren untuk menciptakan pasar bersama.</p>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="mt-20 pt-10 border-t border-gray-200">
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                        <div class="bg-white p-5 rounded-2xl border-b-4 border-blue-500 shadow-sm">
+                            <div class="text-2xl font-extrabold">500+</div>
+                            <div class="text-[10px] text-gray-400 uppercase font-bold mt-1">Pesantren</div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border-b-4 border-green-500 shadow-sm">
+                            <div class="text-2xl font-extrabold">27</div>
+                            <div class="text-[10px] text-gray-400 uppercase font-bold mt-1">Kab/Kota</div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border-b-4 border-red-500 shadow-sm">
+                            <div class="text-2xl font-extrabold">5</div>
+                            <div class="text-[10px] text-gray-400 uppercase font-bold mt-1">Provinsi</div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border-b-4 border-yellow-500 shadow-sm">
+                            <div class="text-2xl font-extrabold">10k+</div>
+                            <div class="text-[10px] text-gray-400 uppercase font-bold mt-1">Santri</div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border-b-4 border-purple-500 shadow-sm">
+                            <div class="text-2xl font-extrabold">50+</div>
+                            <div class="text-[10px] text-gray-400 uppercase font-bold mt-1">Mitra</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HALAMAN 4: BERITA -->
+        <section id="berita" class="page-content py-16 bg-white min-h-[600px]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900">Portal Berita SEP</h2>
+                    <div class="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded"></div>
+                </div>
+
+                <div id="berita-utama-container" class="mb-12"></div>
+                <div id="berita-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+                <div id="pagination-controls" class="mt-16 flex justify-center items-center space-x-2"></div>
+            </div>
+        </section>
+
+        <!-- HALAMAN 5: KONTAK -->
+        <section id="kontak" class="page-content py-16 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900">Hubungi Kami</h2>
+                    <div class="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
+                    <!-- Left Side: Info & Socials -->
+                    <div class="flex flex-col gap-6">
+                        <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex-grow">
+                            <h3 class="text-xl font-bold text-gray-800 mb-6 border-b pb-4">Info Kantor</h3>
+                            <div class="space-y-6">
+                                <div class="flex gap-4">
+                                    <span class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">📍</span>
+                                    <p class="text-gray-600 text-sm leading-relaxed font-medium">Kampoeng Quran, Jl. Cibaligo. Desa Cihanjuang, Kab. Bandung Barat</p>
+                                </div>
+                                <div class="flex gap-4">
+                                    <span class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">📱</span>
+                                    <p class="text-gray-600 text-sm font-bold">+62 812-3456-7890</p>
+                                </div>
+                                <div class="flex gap-4">
+                                    <span class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">✉️</span>
+                                    <p class="text-gray-600 text-sm font-bold underline">admin@sep.org</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-10">
+                                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Media Sosial Kami</h4>
+                                <div class="flex flex-col gap-3">
+                                    <a href="#" class="flex items-center gap-4 p-3 bg-gray-50 rounded-2xl hover:bg-white hover:shadow-lg transition-all group">
+                                        <div class="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-xl">IG</div>
+                                        <span class="text-sm font-bold text-gray-700">@sep_official</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-4 p-3 bg-gray-50 rounded-2xl hover:bg-white hover:shadow-lg transition-all group">
+                                        <div class="w-10 h-10 flex items-center justify-center bg-blue-700 text-white rounded-xl">FB</div>
+                                        <span class="text-sm font-bold text-gray-700">Serikat Ekonomi Pesantren</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-4 p-3 bg-gray-50 rounded-2xl hover:bg-white hover:shadow-lg transition-all group">
+                                        <div class="w-10 h-10 flex items-center justify-center bg-black text-white rounded-xl text-[10px]">TikTok</div>
+                                        <span class="text-sm font-bold text-gray-700">@sep_official</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Form -->
+                    <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 border-t-8 border-t-blue-600">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6">Kirim Pesan Cepat</h3>
+                        <form class="space-y-5" onsubmit="event.preventDefault(); document.getElementById('success-msg').classList.remove('hidden'); this.reset(); setTimeout(() => document.getElementById('success-msg').classList.add('hidden'), 3000);">
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2 ml-1">Nama Lengkap</label>
+                                <input type="text" placeholder="Haji Ahmad" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all outline-none">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2 ml-1">Email / WhatsApp</label>
+                                <input type="text" placeholder="ahmad@gmail.com" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all outline-none">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2 ml-1">Pesan</label>
+                                <textarea rows="4" placeholder="Tulis pesan Anda..." class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all outline-none"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 shadow-lg active:scale-95 transition-all">Kirim Sekarang</button>
+                            <div id="success-msg" class="hidden mt-4 p-3 bg-green-100 text-green-700 rounded-xl text-center text-sm font-bold border border-green-200">
+                                Pesan Anda berhasil terkirim!
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h3 class="text-xl font-extrabold uppercase tracking-[0.2em] mb-2">Serikat Ekonomi Pesantren</h3>
+            <p class="text-blue-400 text-sm italic mb-8">"Pesantren Berdaya Umat Sejahtera"</p>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-gray-500">
+                <p>&copy; 2026 Serikat Ekonomi Pesantren. Semua hak dilindungi.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-white">Kebijakan Privasi</a>
+                    <a href="#" class="hover:text-white">Syarat & Ketentuan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ASISTEN AI SEP WIDGET -->
+    <div id="ai-widget" class="fixed bottom-6 right-6 z-50">
+        <button id="ai-toggle" onclick="toggleChat()" class="bg-blue-600 hover:bg-blue-700 text-white rounded-2xl p-4 shadow-2xl transition-all hover:scale-110 active:scale-90">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+        </button>
+        <div id="ai-panel" class="hidden absolute bottom-20 right-0 w-80 sm:w-96 bg-white rounded-3xl shadow-2xl border flex flex-col overflow-hidden transition-all duration-300" style="height: 480px;">
+            <div class="bg-blue-600 text-white p-5 flex justify-between items-center shadow-lg">
+                <div>
+                    <h3 class="font-bold text-lg">Asisten AI SEP</h3>
+                    <p class="text-[10px] text-blue-200">Online & Siap Membantu</p>
+                </div>
+                <button onclick="toggleChat()" class="text-2xl opacity-70 hover:opacity-100">&times;</button>
+            </div>
+            <div id="chat-history" class="flex-grow p-4 overflow-y-auto chat-scroll bg-gray-50 flex flex-col gap-4 text-sm">
+                <div class="bg-white border text-gray-700 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] shadow-sm leading-relaxed italic">Selamat datang di Serikat Ekonomi Pesantren. Saya AI yang siap membantu menjawab pertanyaan Anda.</div>
+            </div>
+            <div class="p-4 bg-white border-t border-gray-100">
+                <form id="chat-form" class="flex gap-2" onsubmit="handleChatSubmit(event)">
+                    <input type="text" id="chat-input" placeholder="Tanya tentang program..." class="flex-grow px-4 py-3 bg-gray-100 border-none rounded-xl focus:ring-2 focus:ring-blue-500 text-sm outline-none" required>
+                    <button type="submit" class="bg-blue-600 text-white px-5 py-3 rounded-xl hover:bg-blue-700 transition-colors">Kirim</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // NAVIGATION LOGIC
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+        function navigateMobile(pageId) { navigate(pageId); toggleMobileMenu(); }
+
+        function navigate(pageId) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            document.querySelectorAll('.nav-link, .nav-link-mobile').forEach(l => {
+                l.classList.remove('text-blue-600', 'font-semibold', 'bg-blue-50');
+                l.classList.add('text-gray-600', 'font-medium');
+                if (l.getAttribute('data-target') === pageId) {
+                    l.classList.remove('text-gray-600', 'font-medium');
+                    l.classList.add('text-blue-600', 'font-semibold', 'bg-blue-50');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // NEWS SYSTEM DATA
+        const dataBerita = [
+            { id: 1, judul: "Membangun Ekosistem Ekonomi Pesantren Terintegrasi", tanggal: "16 April 2026", ringkasan: "Langkah strategis SEP dalam menyatukan potensi ekonomi ribuan pesantren di Jawa Barat melalui logistik bersama.", gambar: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=800&q=80" },
+            { id: 2, judul: "Workshop Santripreneur Batch 10 Sukses Digelar", tanggal: "12 April 2026", ringkasan: "Lebih dari 100 santri mengikuti pelatihan intensif digital marketing dan literasi keuangan syariah.", gambar: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80" },
+            { id: 3, judul: "Sinergi Strategis dengan Perbankan Syariah", tanggal: "10 April 2026", ringkasan: "Penandatanganan MoU akses permodalan mudah bagi UMKM binaan pesantren di wilayah Priangan Timur.", gambar: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&q=80" },
+            { id: 4, judul: "Kunjungan Studi Banding Al-Ittifaq", tanggal: "05 April 2026", ringkasan: "Melihat keberhasilan unit usaha pertanian modern dan distribusi sayuran skala nasional.", gambar: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&q=80" },
+            { id: 5, judul: "Inovasi Produk Pangan Santri Naik Kelas", tanggal: "01 April 2026", ringkasan: "Produk keripik santri kini masuk ke jaringan ritel modern melalui kurasi ketat tim SEP.", gambar: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&q=80" },
+            { id: 6, judul: "Peluncuran Platform SEP-Mart Online", tanggal: "28 Maret 2026", ringkasan: "Mudahnya belanja produk asli pesantren langsung dari genggaman tangan secara aman dan halal.", gambar: "https://images.unsplash.com/photo-1605648916319-cf082f7524a1?w=400&q=80" }
+        ];
+
+        let currentPage = 1;
+        const itemsPerPage = 5; // 1 Utama + 4 Grid
+
+        function renderBerita() {
+            const utContainer = document.getElementById('berita-utama-container');
+            const grContainer = document.getElementById('berita-grid-container');
+            const pgControls = document.getElementById('pagination-controls');
+            
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = startIdx + itemsPerPage;
+            const currentData = dataBerita.slice(startIdx, endIdx);
+
+            utContainer.innerHTML = ''; grContainer.innerHTML = ''; pgControls.innerHTML = '';
+            if (currentData.length === 0) return;
+
+            // Render Featured
+            const fb = currentData[0];
+            utContainer.innerHTML = `
+                <article class="group bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100 flex flex-col md:flex-row min-h-[350px] hover:shadow-2xl transition-all cursor-pointer">
+                    <div class="w-full md:w-3/5 overflow-hidden"><img src="${fb.gambar}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"></div>
+                    <div class="w-full md:w-2/5 p-8 flex flex-col justify-center">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-600 text-[10px] font-black uppercase w-fit rounded-lg mb-4 tracking-widest">Utama</span>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 leading-tight group-hover:text-blue-600 transition-colors">${fb.judul}</h3>
+                        <p class="text-gray-500 text-sm line-clamp-3 mb-6">${fb.ringkasan}</p>
+                        <span class="text-blue-600 font-bold text-sm">Baca Selengkapnya &rarr;</span>
+                    </div>
+                </article>`;
+
+            // Render Grid
+            currentData.slice(1).forEach(b => {
+                grContainer.innerHTML += `
+                    <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg group cursor-pointer flex flex-col transition-all">
+                        <div class="h-40 overflow-hidden"><img src="${b.gambar}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                        <div class="p-5 flex-grow">
+                            <span class="text-[9px] text-gray-400 font-bold uppercase mb-2 block tracking-widest">${b.tanggal}</span>
+                            <h4 class="font-bold text-gray-800 text-sm mb-3 group-hover:text-blue-600 line-clamp-2">${b.judul}</h4>
+                            <p class="text-gray-400 text-xs line-clamp-2">${b.ringkasan}</p>
+                        </div>
+                    </article>`;
+            });
+
+            // Pagination
+            const total = Math.ceil(dataBerita.length / itemsPerPage);
+            for (let i = 1; i <= total; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-num px-4 py-2 rounded-xl border font-bold transition-all ${i === currentPage ? 'active' : 'bg-white text-gray-400 hover:text-blue-600 hover:border-blue-500'}`;
+                btn.innerText = i;
+                btn.onclick = () => { currentPage = i; renderBerita(); document.getElementById('berita').scrollIntoView({ behavior: 'smooth' }); };
+                pgControls.appendChild(btn);
+            }
+        }
+        renderBerita();
+
+        // GEMINI AI INTEGRATION
+        const apiKey = "";
+        function toggleChat() { document.getElementById('ai-panel').classList.toggle('hidden'); }
+        async function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim(); if(!msg) return;
+            appendMsg(msg, 'user'); input.value = '';
+            const lid = appendMsg('...', 'ai', true);
+            try { const res = await callGemini(msg); updateMsg(lid, res); } catch { updateMsg(lid, "Sistem sibuk, mohon coba lagi."); }
+        }
+        function appendMsg(txt, sender, isL = false) {
+            const h = document.getElementById('chat-history');
+            const d = document.createElement('div');
+            const id = 'msg-' + Date.now(); d.id = id;
+            if(sender === 'user') d.className = "bg-blue-600 text-white p-4 rounded-2xl rounded-tr-none self-end max-w-[85%] shadow-md font-medium";
+            else d.className = "bg-white border text-gray-700 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] shadow-sm " + (isL ? "animate-pulse" : "");
+            d.innerHTML = txt.replace(/\n/g, '<br>');
+            h.appendChild(d); h.scrollTop = h.scrollHeight;
+            return id;
+        }
+        function updateMsg(id, txt) {
+            const d = document.getElementById(id);
+            if(d) { d.classList.remove('animate-pulse'); d.innerHTML = txt.replace(/\n/g, '<br>'); document.getElementById('chat-history').scrollTop = document.getElementById('chat-history').scrollHeight; }
+        }
+        async function callGemini(q) {
+            const sp = "Anda adalah asisten AI ramah untuk Serikat Ekonomi Pesantren (SEP). Jawab ringkas dalam Bahasa Indonesia.";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contents: [{ parts: [{ text: q }] }], systemInstruction: { parts: [{ text: sp }] } }) });
+            const data = await res.json(); return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, terjadi kesalahan.";
+        }
+    </script>
+</body>
+</html>
